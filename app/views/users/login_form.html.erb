@@ -28,9 +28,9 @@
   <div class="container my-5">
     <div class="row header">
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-      新規登録
+      ログイン
     </div>
-    <%= form_tag("/users/create") do %>
+    <%= form_tag("/users/login") do %>
     <form>
       <fieldset class="form-group">
         <div class="form-group">
@@ -45,18 +45,14 @@
           <legend>パスワード</legend>
           <input class="form-control" type="password" name="password">
         </div>
-        <div class="form-group">
-          <legend>パスワード(確認用)</legend>
-          <% if @password_error_message %>
-            <p class="text-danger"><%= @password_error %></p>
-          <% end %>
-          <input class="form-control" type="password" name="password_confirmation">
-        </div>
         <% @user.errors.full_messages.each do |message| %>
           <li class="text-danger my-1" style="list-style: none;"><%= message %></li>
         <% end %>
+        <% if @login_error_message %>
+          <p class="text-danger"><%= @login_error_message %></p>
+        <% end %>
         <div class="text-center">
-        <button type="submit" class="btn btn-primary pull-right">登録</button>
+        <button type="submit" class="btn btn-primary pull-right">ログイン</button>
         </div>
       </fieldset>
     </form>

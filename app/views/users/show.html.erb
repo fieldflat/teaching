@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" dir="ltr">
 <head>
   <meta charset="utf-8">
   <title></title>
@@ -28,40 +28,38 @@
   <div class="container my-5">
     <div class="row header">
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-      新規登録
+      ユーザ情報
     </div>
-    <%= form_tag("/users/create") do %>
+
     <form>
       <fieldset class="form-group">
         <div class="form-group">
           <legend>名前</legend>
-          <input type="text" class="form-control" name="name" value="<%= @user.name %>">
+          <p class="text-info"><%= @user.name %></p>
         </div>
         <div class="form-group">
-          <legend>email</legend>
-          <input type="text" class="form-control" placeholder="example@i.softbank.jp" name="email" value="<%= @user.email %>">
-        </div>
-        <div class="form-group">
-          <legend>パスワード</legend>
-          <input class="form-control" type="password" name="password">
-        </div>
-        <div class="form-group">
-          <legend>パスワード(確認用)</legend>
-          <% if @password_error_message %>
-            <p class="text-danger"><%= @password_error %></p>
-          <% end %>
-          <input class="form-control" type="password" name="password_confirmation">
+          <legend>自己紹介</legend>
+          <p class="text-info">
+            <%= @user.introduction %>
+          </p>
         </div>
         <% @user.errors.full_messages.each do |message| %>
           <li class="text-danger my-1" style="list-style: none;"><%= message %></li>
         <% end %>
-        <div class="text-center">
-        <button type="submit" class="btn btn-primary pull-right">登録</button>
+        <% if @login_error_message %>
+          <p class="text-danger"><%= @login_error_message %></p>
+        <% end %>
+        <% if @current_user.id == @user.id %>
+          <div class="text-center">
+          <input type="button" value="編集" onClick="location.href='/users/<%= @current_user.id %>/edit'" class="btn btn-success pull-right">
+        <% end %>
         </div>
       </fieldset>
     </form>
-    <% end %>
+
   </div>
+
+
 
 </body>
 </html>
