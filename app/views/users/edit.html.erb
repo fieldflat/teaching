@@ -30,9 +30,15 @@
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
       ユーザ情報の編集
     </div>
-    <%= form_tag("/users/#{@user.id}/update") do %>
+    <%= form_tag("/users/#{@user.id}/update", {multipart: true}) do %>
     <form>
       <fieldset class="form-group">
+        <div class="form-group">
+          <legend>プロフィール画像</legend>
+          <div class="text-center">
+            <img src="<%= "/img/#{@user.image_name}" %>" style="width: 50%; height: 50%;">
+          </div>
+        </div>
         <div class="form-group">
           <legend>名前</legend>
           <input type="text" class="form-control" name="name" value="<%= @user.name %>">
@@ -42,18 +48,33 @@
           <textarea name="introduction" class="form-control" rows="4" ><%= @user.introduction %></textarea>
         </div>
         <% @user.errors.full_messages.each do |message| %>
-          <li class="text-danger my-1" style="list-style: none;"><%= message %></li>
+        <li class="text-danger my-1" style="list-style: none;"><%= message %></li>
         <% end %>
         <% if @login_error_message %>
-          <p class="text-danger"><%= @login_error_message %></p>
+        <p class="text-danger"><%= @login_error_message %></p>
         <% end %>
-        <div class="text-center">
-        <button type="submit" class="btn btn-primary pull-right">アップデート</button>
-        </div>
-      </fieldset>
-    </form>
-    <% end %>
-  </div>
+        <input id="lefile" type="file" style="display:none">
+        <div class="input-group">
+          <!--
+          <input type="text" id="photoCover" class="form-control" placeholder="select file...">
+          <span class="input-group-btn"><button name="image_name" type="button" class="btn btn-info" onclick="$('input[id=lefile]').click();">Browse</button></span>
+        -->
+        <input name="image_name" type="file">
+      </div>
+      <p class="help-block">* png形式のみ可</p>
 
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary pull-right">アップデート</button>
+      </div>
+    </fieldset>
+  </form>
+  <% end %>
+</div>
+
+<script>
+  $('input[id=lefile]').change(function() {
+    $('#photoCover').val($(this).val());
+  });
+</script>
 </body>
 </html>

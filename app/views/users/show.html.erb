@@ -34,6 +34,12 @@
     <form>
       <fieldset class="form-group">
         <div class="form-group">
+          <legend>プロフィール画像</legend>
+          <div class="text-center">
+            <img src="<%= "/img/#{@user.image_name}" %>" style="width: 50%; height: 50%;">
+          </div>
+        </div>
+        <div class="form-group">
           <legend>名前</legend>
           <p class="text-info"><%= @user.name %></p>
         </div>

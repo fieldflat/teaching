@@ -7,9 +7,14 @@ Rails.application.routes.draw do
   get "/users/:id/show" => "users#show"
   get "/users/:id/edit" => "users#edit"
 
+  get "/questions/new" => "questions#new"
+  get "/questions/index" => "questions#index"
+
   post "/users/create" => "users#create"
   post "/users/login" => "users#login"
   post "/users/logout" => "users#logout"
   post "/users/:id/update" => "users#update"
+
+  post "questions/create" => "questions#create"
 
 end

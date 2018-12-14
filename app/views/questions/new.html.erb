@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+
+  <style>
+    .container {
+      max-width:800px;
+      border: solid 1px #FF773E;
+      border-radius:10px 10px 0px 0px;
+    }
+
+    .header {
+      background: #FF773E;
+      border-radius:10px 10px 0px 0px;
+      padding: 15px;
+      font-size: 25px;
+    }
+
+    fieldset{
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container my-5">
+    <div class="row header">
+      <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+      質問
+    </div>
+    <%= form_tag("/questions/create", {multipart: true}) do %>
+    <form>
+      <fieldset class="form-group">
+        <div class="form-group">
+          <legend>タイトル</legend>
+          <input type="text" class="form-control" name="title" value="<%= @question.title %>">
+        </div>
+        <div class="form-group">
+          <legend>質問内容</legend>
+          <textarea name="content" class="form-control" rows="4" value="<%= @question.content %>" ></textarea>
+        </div>
+
+        <% @question.errors.full_messages.each do |message| %>
+        <li class="text-danger my-1" style="list-style: none;"><%= message %></li>
+        <% end %>
+        <% if @login_error_message %>
+        <p class="text-danger"><%= @login_error_message %></p>
+        <% end %>
+        <div class="input-group">
+
+          <input name="image_name" type="file">
+        </div>
+        <div class="text-center my-3">
+          <button type="submit" class="btn btn-primary pull-right">質問する</button>
+        </div>
+      </fieldset>
+    </form>
+    <% end %>
+  </div>
+
+</body>
+</html>

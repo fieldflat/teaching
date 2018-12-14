@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+
+  <style>
+    .container {
+      max-width:800px;
+      border: solid 1px #FF773E;
+      border-radius:10px 10px 0px 0px;
+    }
+
+    .container-sub {
+      max-width:800px;
+      border-radius:10px 10px 0px 0px;
+    }
+
+    .header {
+      background: #FF773E;
+      border-radius:10px 10px 0px 0px;
+      padding: 15px;
+      font-size: 25px;
+    }
+
+    fieldset{
+      padding: 15px;
+    }
+  </style>
+  <body>
+
+
+    <div style="margin: 0 auto; max-width:800px; text-align: center;" class="my-4">
+      <%= page_entries_info @questions %>
+    </div>
+
+
+    <% @questions.each do |q| %>
+    <div class="container my-5">
+      <div class="row header">
+        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+        <%= "#{q.user.name}" + " " + "さんからの質問" %>
+      </div>
+      <form>
+        <fieldset class="form-group">
+          <div class="form-group">
+            <h2 class="font-weight-bold text-center"><%= q.title %></h2>
+          </div>
+          <div class="form-group">
+            <p><%= q.title %></p>
+          </div>
+          <% if q.image_name %>
+            <div class="form-group text-center">
+              <img src="<%= "/img/#{q.image_name}" %>" style="width: 300px; ">
+            </div>
+          <% end %>
+
+        </fieldset>
+      </form>
+    </div>
+    <% end %>
+
+    <div style="margin: 0 auto; max-width:800px; text-align: center;">
+      <p class="text-center"><%= paginate @questions, window: 0 %></p>
+    </div>
+
+
+  </body>
+</html>

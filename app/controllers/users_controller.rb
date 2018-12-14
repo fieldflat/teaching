@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(name: params[:name], email: params[:email], password: params[:password])
+    @user = User.new(name: params[:name], email: params[:email], password: params[:password], image_name: "default.png")
 
     if params[:password] == params[:password_confirmation] && @user.save
       session[:user_id] = @user.id
@@ -66,6 +66,13 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     @user.name = params[:name]
     @user.introduction = params[:introduction]
+
+    if params[:image_name]
+      image = params[:image_name]
+      @user.image_name = "#{@user.id}.png"
+      File.binwrite("public/img/#{@user.image_name}", image.read)
+    end
+
     flash[:success] = "ユーザ情報を編集しました"
     @user.save
     redirect_to("/users/#{@user.id}/show")
