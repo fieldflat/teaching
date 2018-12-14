@@ -39,16 +39,16 @@
     <% @questions.each do |q| %>
     <div class="container my-5">
       <div class="row header">
-        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-        <%= "#{q.user.name}" + " " + "さんからの質問" %>
+          <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+          <%= link_to("#{q.user.name}", "/users/#{q.user.id}/show") + " " + "さんからの質問" %>
       </div>
       <form>
         <fieldset class="form-group">
           <div class="form-group">
-            <h2 class="font-weight-bold text-center"><%= q.title %></h2>
+            <h2 class="font-weight-bold text-center"><%= link_to(q.title, "/questions/#{q.id}/show") %></h2>
           </div>
           <div class="form-group">
-            <p><%= q.title %></p>
+            <p><%= q.content %></p>
           </div>
           <% if q.image_name %>
             <div class="form-group text-center">
@@ -58,6 +58,16 @@
 
         </fieldset>
       </form>
+
+      <% if @current_user.id == q.user.id %>
+      <div>
+        <ul style="list-style: none;">
+          <li style="float: left;" class="mr-3"><%= link_to("編集", "/questions/#{q.id}/edit") %></li>
+          <li ><%= link_to("削除", "/questions/#{q.id}/destroy", {method: "post"}) %></li>
+        </ul>
+      </div>
+      <% end %>
+
     </div>
     <% end %>
 

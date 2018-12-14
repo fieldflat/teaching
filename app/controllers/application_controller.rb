@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
     def is_loginned?
       if !@current_user
-        flash[:notice] = "ログインをしてください"
+        flash[:danger] = "ログインをしてください"
         redirect_to("/")
       end
     end
