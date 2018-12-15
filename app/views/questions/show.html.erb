@@ -60,6 +60,7 @@
   <div class="container my-5">
     <div class="row header">
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+      <img src="<%= "/img/#{@question.user.image_name}" %>" style="border-radius: 50%; height: 40px; width: 40px; margin-right: 10px;">
       <%= link_to("#{@question.user.name}", "/users/#{@question.user.id}/show") + " " + "さんからの質問" %>
     </div>
     <form>
@@ -128,6 +129,7 @@
   <div class="container my-5 answer-container">
     <div class="row answer-header">
         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+        <img src="<%= "/img/#{ans.user.image_name}" %>" style="border-radius: 50%; height: 40px; width: 40px; margin-right: 10px;">
         <%= link_to("#{ans.user.name}", "/users/#{ans.user.id}/show") + " " + "さんの返信" %>
     </div>
     <form>

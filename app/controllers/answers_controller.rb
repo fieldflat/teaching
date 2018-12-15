@@ -10,6 +10,7 @@ class AnswersController < ApplicationController
         @answer.image_name = "answer#{@answer.id}.png"
         File.binwrite("public/img/#{@answer.image_name}", image.read)
         @answer.save
+        convert_auto_orient("public/img/#{@answer.image_name}", "public/img/#{@answer.image_name}")
       end
 
       flash[:success] = "返信されました！"
@@ -27,13 +28,21 @@ class AnswersController < ApplicationController
     @answer = Answer.find_by(id: params[:aid])
     @question = Question.find_by(id: @answer.question_id)
     if @answer.destroy
+      if @answer.image_name
+        system("rm public/img/#{@answer.image_name}")
+      end
       flash[:success] = "返信を削除しました"
       redirect_to("/questions/#{@question.id}/show")
     else
       flash[:danger] = "返信の削除に失敗しました"
       redirect_to("/questions/index")
     end
+  end
 
+  def convert_auto_orient(path, new_path)
+    #system("convert #{auto_orient_options(path)} -strip '#{path}' '#{new_path}'")
+    #system("convert -rotate 90 -strip '#{path}' '#{new_path}'")
+    system("convert '#{path}' -auto-orient '#{new_path}'")
   end
 
 

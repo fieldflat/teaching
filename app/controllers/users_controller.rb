@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(name: params[:name], email: params[:email], password: params[:password], image_name: "default.png")
+    @user = User.new(name: params[:name], email: params[:email], password: params[:password], image_name: "default_user.png")
 
     if params[:password] == params[:password_confirmation] && @user.save
       session[:user_id] = @user.id
@@ -71,11 +71,18 @@ class UsersController < ApplicationController
       image = params[:image_name]
       @user.image_name = "#{@user.id}.png"
       File.binwrite("public/img/#{@user.image_name}", image.read)
+      convert_auto_orient("public/img/#{@user.image_name}", "public/img/#{@user.image_name}")
     end
 
     flash[:success] = "ユーザ情報を編集しました"
     @user.save
     redirect_to("/users/#{@user.id}/show")
+  end
+
+  def convert_auto_orient(path, new_path)
+    #system("convert #{auto_orient_options(path)} -strip '#{path}' '#{new_path}'")
+    #system("convert -rotate 90 -strip '#{path}' '#{new_path}'")
+    system("convert '#{path}' -auto-orient '#{new_path}'")
   end
 
   def ensure_correct_user

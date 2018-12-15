@@ -69,7 +69,8 @@ class QuestionsController < ApplicationController
   def destroy
     @question = Question.find_by(id: params[:qid])
     @question.destroy
-    flash[:sucess] = "質問を削除しました"
+    system("rm public/img/#{@question.image_name}")
+    flash[:success] = "質問を削除しました"
     redirect_to("/questions/index")
   end
 

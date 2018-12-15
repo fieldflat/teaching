@@ -40,6 +40,7 @@
     <div class="container my-5">
       <div class="row header">
           <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+          <img src="<%= "/img/#{q.user.image_name}" %>" style="border-radius: 50%; height: 40px; width: 40px; margin-right: 10px;">
           <%= link_to("#{q.user.name}", "/users/#{q.user.id}/show") + " " + "さんからの質問" %>
       </div>
       <form>
