@@ -24,4 +24,14 @@ Rails.application.routes.draw do
   post "/answers/:qid/create" => "answers#create"
   post "/answers/:aid/destroy" => "answers#destroy"
 
+  post "/likes/:post_id/create" => "likes#create"
+  post "/likes/:post_id/destroy" => "likes#destroy"
+  post "/likes/:post_id/show_create" => "likes#show_create"
+  post "/likes/:post_id/show_destroy" => "likes#show_destroy"
+  post "/likes/:post_id/:user_id/user_show_create" => "likes#user_show_create"
+  post "/likes/:post_id/:user_id/user_show_destroy" => "likes#user_show_destroy"
+
+  post "/goods/:aid/:qid/create" => "goods#create"
+  post "/goods/:aid/:qid/destroy" => "goods#destroy"
+
 end

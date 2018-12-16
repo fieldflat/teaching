@@ -8,6 +8,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(id: params[:id])
+    @questions = Question.where(user_id: @user.id).page(params[:page]).per(10).order(updated_at: "desc")
   end
 
   def create

@@ -53,7 +53,14 @@
   fieldset{
     padding: 15px;
   }
+
+  .container .fa {
+    font-size: 16px;
+  }
+
+
 </style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 <body>
 
 
@@ -83,12 +90,30 @@
     <% if @current_user.id == @question.user.id %>
     <div>
       <ul style="list-style: none;">
-        <li style="float: left;" class="mr-3"><%= link_to("編集", "/questions/#{@question.id}/edit") %></li>
-        <li ><%= link_to("削除", "/questions/#{@question.id}/destroy", {method: "post"}) %></li>
+        <li style="float: right;" class="mr-3"><%= link_to("編集", "/questions/#{@question.id}/edit") %></li>
+        <li ><%= link_to("削除", "/questions/#{@question.id}/destroy", {method: "post", :style => "float: right; margin-right: 10px;"}) %></li>
       </ul>
     </div>
     <% end %>
+
+    <% if Like.find_by(user_id: @current_user.id, post_id: @question.id) %>
+      <%= link_to("/likes/#{@question.id}/show_destroy", {method: "post" }) do %>
+        <span class="fa fa-heart like-btn-unlike" style="color: #ff2581; padding-left: 20px;"></span>
+      <% end %>
+    <% else %>
+    　<%= link_to( "/likes/#{@question.id}/show_create", {method: "post"} ) do %>
+        <span class="fa fa-heart like-btn" style="color: #8899a6;"></span>
+      <% end %>
+    <% end %>
+
+    <%= Like.where(post_id: @question.id).count %>
+
+    <%= link_to("/questions/#{@question.id}/show") do %>
+    <span class="far fa-comment" style="margin-left: 10px;"></span>
+    <% end %>
+    <span><%= "#{Answer.where(question_id: @question.id).count}" %></span>
   </div>
+
 
   <div class="container my-5 reply-container">
     <div class="row reply-header">
@@ -149,10 +174,26 @@
     <% if @current_user.id == ans.user.id %>
     <div>
       <ul style="list-style: none;">
-        <li ><%= link_to("削除", "/answers/#{ans.id}/destroy", {method: "post"}) %></li>
+        <li ><%= link_to("削除", "/answers/#{ans.id}/destroy", {method: "post", :style => "float: right;"}) %></li>
       </ul>
     </div>
     <% end %>
+
+    <% if Good.find_by(user_id: @current_user.id, answer_id: ans.id) %>
+    <%= link_to("/goods/#{ans.id}/#{@question.id}/destroy", {method: "post" }) do %>
+    <span style="color: Tomato;">
+      <i class="fa fa-thumbs-up" style="width: 20px;"></i>
+    </span>
+    <% end %>
+    <% else %>
+    <%= link_to("/goods/#{ans.id}/#{@question.id}/create", {method: "post" }) do %>
+    <span style="color: Tomato; opacity: 0.3;">
+      <i class="fa fa-thumbs-up"></i>
+    </span>
+    <% end %>
+    <% end %>
+
+    <%= Good.where(answer_id: ans.id).count %>
 
   </div>
   <% end %>

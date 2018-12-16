@@ -6,13 +6,26 @@
 
   <style>
     .container {
-      max-width:600px;
+      max-width:800px;
       border: solid 1px #FF773E;
       border-radius:10px 10px 0px 0px;
     }
 
     .header {
       background: #FF773E;
+      border-radius:10px 10px 0px 0px;
+      padding: 15px;
+      font-size: 25px;
+    }
+
+    .user_container {
+      max-width:800px;
+      border: solid 1px rgba(206, 84, 231, 0.71);
+      border-radius:10px 10px 0px 0px;
+    }
+
+    .user_header {
+      background: rgba(206, 84, 231, 0.71);
       border-radius:10px 10px 0px 0px;
       padding: 15px;
       font-size: 25px;
@@ -25,8 +38,8 @@
 </head>
 <body>
 
-  <div class="container my-5">
-    <div class="row header">
+  <div class="container my-5 user_container">
+    <div class="row user_header">
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
       ユーザ情報
     </div>
@@ -63,6 +76,63 @@
       </fieldset>
     </form>
 
+  </div>
+
+  <div style="margin: 0 auto; max-width:800px; text-align: center;" class="my-4">
+    <%= page_entries_info @questions %>
+  </div>
+
+
+  <% @questions.each do |q| %>
+  <div class="container my-5">
+    <div class="row header">
+        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+        <img src="<%= "/img/#{q.user.image_name}" %>" style="border-radius: 50%; height: 40px; width: 40px; margin-right: 10px;">
+        <%= link_to("#{q.user.name}", "/users/#{q.user.id}/show") + " " + "さんからの質問" %>
+    </div>
+    <form>
+      <fieldset class="form-group">
+        <div class="form-group">
+          <h2 class="font-weight-bold text-center"><%= link_to(q.title, "/questions/#{q.id}/show") %></h2>
+        </div>
+        <div class="form-group">
+          <p><%= q.content %></p>
+        </div>
+        <% if q.image_name %>
+          <div class="form-group text-center">
+            <img src="<%= "/img/#{q.image_name}" %>" style="width: 300px; ">
+          </div>
+        <% end %>
+
+      </fieldset>
+    </form>
+
+    <% if @current_user.id == q.user.id %>
+    <div>
+      <ul style="list-style: none;">
+        <li style="float: right;" class="mr-3"><%= link_to("編集", "/questions/#{q.id}/edit") %></li>
+        <li ><%= link_to("削除", "/questions/#{q.id}/destroy", {method: "post", :style => "float: right; margin-right: 10px;"}) %></li>
+      </ul>
+    </div>
+    <% end %>
+
+    <% if Like.find_by(user_id: @current_user.id, post_id: q.id) %>
+      <%= link_to("/likes/#{q.id}/#{q.user.id}/user_show_destroy", {method: "post" }) do %>
+        <span class="fa fa-heart like-btn-unlike" style="color: #ff2581; padding-left: 20px;"></span>
+      <% end %>
+    <% else %>
+    　<%= link_to( "/likes/#{q.id}/#{q.user.id}/user_show_create", {method: "post"} ) do %>
+        <span class="fa fa-heart like-btn" style="color: #8899a6;"></span>
+      <% end %>
+    <% end %>
+
+    <%= Like.where(post_id: q.id).count %>
+
+  </div>
+  <% end %>
+
+  <div style="margin: 0 auto; max-width:800px; text-align: center;">
+    <p class="text-center"><%= paginate @questions, window: 0 %></p>
   </div>
 
 
