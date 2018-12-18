@@ -1,6 +1,6 @@
 class ImageNameUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
+  include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
@@ -12,6 +12,25 @@ class ImageNameUploader < CarrierWave::Uploader::Base
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
+
+  def default_url
+    "default_user.png"
+  end
+
+  # ここでorientationの問題を解消しています
+  def auto
+    manipulate! do|image|
+      image.auto_orient
+    end
+  end
+
+  # ここも追加
+  process :auto
+  process :resize_to_limit => [850, 600]
+  version :thumb do
+    process :resize_to_fit => [400, 400]
+  end
+
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url(*args)

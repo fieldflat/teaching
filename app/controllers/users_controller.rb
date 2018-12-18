@@ -12,7 +12,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(name: params[:name], email: params[:email], password: params[:password], image_name: "default_user.png")
+    #@user = User.new(name: params[:name], email: params[:email], password: params[:password], image_name: "default_user.png")
+    @user = User.new(name: params[:name], email: params[:email], password: params[:password])
 
     if params[:password] == params[:password_confirmation] && @user.save
       session[:user_id] = @user.id
@@ -65,19 +66,22 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find_by(id: params[:id])
-    @user.name = params[:name]
-    @user.introduction = params[:introduction]
+    @user.update(permit_params)
+    flash[:success] = "プロフィールを編集しました"
+    redirect_to("/users/#{params[:id]}/show")
+#    @user.name = params[:name]
+#    @user.introduction = params[:introduction]
 
-    if params[:image_name]
-      image = params[:image_name]
-      @user.image_name = "#{@user.id}.png"
-      File.binwrite("public/img/#{@user.image_name}", image.read)
-      convert_auto_orient("public/img/#{@user.image_name}", "public/img/#{@user.image_name}")
-    end
+#    if params[:image_name]
+#      image = params[:image_name]
+#      @user.image_name = "#{@user.id}.png"
+#      File.binwrite("public/img/#{@user.image_name}", image.read)
+#      convert_auto_orient("public/img/#{@user.image_name}", "public/img/#{@user.image_name}")
+#    end
 
-    flash[:success] = "ユーザ情報を編集しました"
-    @user.save
-    redirect_to("/users/#{@user.id}/show")
+#    flash[:success] = "ユーザ情報を編集しました"
+#    @user.save
+#    redirect_to("/users/#{@user.id}/show")
   end
 
   def convert_auto_orient(path, new_path)
@@ -92,6 +96,11 @@ class UsersController < ApplicationController
       redirect_to("/")
     end
   end
+
+  private
+      def permit_params
+        params.require(:user).permit(:name, :introduction, :image_name)
+      end
 
 
 end

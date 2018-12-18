@@ -21,7 +21,7 @@ class QuestionsController < ApplicationController
     @question = Question.new(permit_params)
     @question.user_id = @current_user.id
     @question.save
-    #convert_auto_orient("", "")
+    #convert_auto_orient("uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}", "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}")
     flash[:success] = "質問が投稿されました"
     redirect_to("/questions/index")
   end
@@ -59,7 +59,8 @@ class QuestionsController < ApplicationController
   end
 
   def convert_auto_orient(path, new_path)
-    system("convert '#{path}' -auto-orient '#{new_path}'")
+    system("convert #{auto_orient_options(path)} -strip '#{path}' '#{new_path}'")
+    #system("convert '#{path}' -auto-orient '#{new_path}'")
   end
 
   def ensure_correct_user

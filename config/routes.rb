@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post "/users/create" => "users#create"
   post "/users/login" => "users#login"
   post "/users/logout" => "users#logout"
+  patch "/users/:id/update" => "users#update"
   post "/users/:id/update" => "users#update"
 
   post "/questions/create" => "questions#create"
