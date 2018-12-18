@@ -80,7 +80,7 @@
         </div>
         <% if @question.image_name %>
         <div class="form-group text-center">
-          <img src="<%= "/img/#{@question.image_name}" %>" style="width: 300px; ">
+          <%= image_tag @question.image_name.url, {:style => "width: 60%;"} %>
         </div>
         <% end %>
 
@@ -120,13 +120,13 @@
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
       返信フォーム
     </div>
-    <%= form_tag("/answers/#{@question.id}/create", {multipart: true}) do %>
+    <%= form_for(@answer, url: "/answers/#{@question.id}/create") do |f| %>
     <form>
       <fieldset class="form-group">
 
         <div class="form-group">
           <legend>返信内容</legend>
-          <textarea name="content" class="form-control" rows="4" value="<%= @question.content %>" ></textarea>
+          <%= f.text_area :content, {:style => "width: 100%;", :rows => "8"} %>
         </div>
 
         <% @question.errors.full_messages.each do |message| %>
@@ -135,9 +135,9 @@
         <% if @login_error_message %>
         <p class="text-danger"><%= @login_error_message %></p>
         <% end %>
-        <div class="input-group">
 
-          <input name="image_name" type="file">
+        <div class="input-group">
+          <%= f.file_field :image_name %>
         </div>
         <div class="text-center my-3">
           <button type="submit" class="btn btn-primary pull-right">返信する</button>
@@ -164,7 +164,7 @@
         </div>
         <% if ans.image_name %>
           <div class="form-group text-center">
-            <img src="<%= "/img/#{ans.image_name}" %>" style="width: 300px; ">
+            <%= image_tag ans.image_name.url, {:style => "width: 60%;"} %>
           </div>
         <% end %>
 

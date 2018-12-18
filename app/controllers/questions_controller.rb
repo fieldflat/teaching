@@ -14,27 +14,16 @@ class QuestionsController < ApplicationController
   def show
     @question = Question.find_by(id: params[:qid])
     @answers = Answer.where(question_id: params[:qid]).order(updated_at: "desc")
+    @answer = Answer.new
   end
 
   def create
-    @question = Question.new(title: params[:title], content: params[:content], user_id: @current_user.id)
-
-    if @question.save
-      if params[:image_name]
-        image = params[:image_name]
-        @question.image_name = "question#{@question.id}.png"
-        File.binwrite("public/img/#{@question.image_name}", image.read)
-        @question.save
-        convert_auto_orient("public/img/#{@question.image_name}", "public/img/#{@question.image_name}")
-      end
-
-      flash[:success] = "質問を投稿しました"
-      redirect_to("/questions/index")
-
-    else
-      flash[:danger] = "質問の投稿に失敗しました"
-      render("/questions/new")
-    end
+    @question = Question.new(permit_params)
+    @question.user_id = @current_user.id
+    @question.save
+    #convert_auto_orient("", "")
+    flash[:success] = "質問が投稿されました"
+    redirect_to("/questions/index")
   end
 
   def edit
@@ -43,27 +32,10 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find_by(id: params[:qid])
-
-    @question.title = params[:title]
-    @question.content = params[:content]
-
-    if @question.save
-      if params[:image_name]
-        image = params[:image_name]
-        @question.image_name = "question#{@question.id}.png"
-        File.binwrite("public/img/#{@question.image_name}", image.read)
-        @question.save
-        convert_auto_orient("public/img/#{@question.image_name}", "public/img/new"+"#{@question.image_name}")
-      end
-
-
-      flash[:success] = "質問を編集しました"
-      redirect_to("/questions/index")
-
-    else
-      flash[:danger] = "質問の編集に失敗しました"
-      render("/questions/new")
-    end
+    @question.update(permit_params)
+    #convert_auto_orient("", "")
+    flash[:success] = "質問が更新されました"
+    redirect_to("/questions/index")
   end
 
   def destroy
@@ -87,8 +59,6 @@ class QuestionsController < ApplicationController
   end
 
   def convert_auto_orient(path, new_path)
-    #system("convert #{auto_orient_options(path)} -strip '#{path}' '#{new_path}'")
-    #system("convert -rotate 90 -strip '#{path}' '#{new_path}'")
     system("convert '#{path}' -auto-orient '#{new_path}'")
   end
 
@@ -105,5 +75,10 @@ class QuestionsController < ApplicationController
       redirect_to("/questions/index")
     end
   end
+
+  private
+      def permit_params
+        params.require(:question).permit(:title, :content, :image_name)
+      end
 
 end

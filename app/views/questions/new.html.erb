@@ -43,16 +43,16 @@
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
       質問
     </div>
-    <%= form_tag("/questions/create", {multipart: true}) do %>
+    <%= form_for(@question, url: '/questions/create') do |f| %>
     <form>
       <fieldset class="form-group">
         <div class="form-group">
           <legend>タイトル</legend>
-          <input type="text" class="form-control" name="title" value="<%= @question.title %>">
+          <%= f.text_field :title, :style => "width: 100%;" %>
         </div>
         <div class="form-group">
           <legend>質問内容</legend>
-          <textarea name="content" class="form-control" rows="4" value="<%= @question.content %>" ></textarea>
+          <%= f.text_area :content, {:style => "width: 100%;", :rows => "8"} %>
         </div>
 
         <% @question.errors.full_messages.each do |message| %>
@@ -62,8 +62,7 @@
         <p class="text-danger"><%= @login_error_message %></p>
         <% end %>
         <div class="input-group">
-
-          <input name="image_name" type="file">
+          <%= f.file_field :image_name %>
         </div>
         <div class="text-center my-3">
           <button type="submit" class="btn btn-primary pull-right">質問する</button>

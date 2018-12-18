@@ -57,9 +57,9 @@
           <div class="form-group">
             <p><%= q.content %></p>
           </div>
-          <% if q.image_name %>
+          <% if q.image_name.url %>
             <div class="form-group text-center">
-              <img src="<%= "/img/#{q.image_name}" %>" style="width: 300px; ">
+              <%= image_tag q.image_name.url, {:style => "width: 60%;"} %>
             </div>
           <% end %>
 

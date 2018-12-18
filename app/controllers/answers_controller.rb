@@ -2,26 +2,32 @@ class AnswersController < ApplicationController
   before_action :ensure_correct_user, {only: [:destroy]}
 
   def create
-    @answer = Answer.new(user_id: @current_user.id, question_id: params[:qid].to_i, content: params[:content])
-
-    if @answer.save
-      if params[:image_name]
-        image = params[:image_name]
-        @answer.image_name = "answer#{@answer.id}.png"
-        File.binwrite("public/img/#{@answer.image_name}", image.read)
-        @answer.save
-        convert_auto_orient("public/img/#{@answer.image_name}", "public/img/#{@answer.image_name}")
-      end
-
-      flash[:success] = "返信されました！"
-      redirect_to("/questions/#{params[:qid]}/show")
-
-    else
-      flash[:danger] = "返信できませんでした(返信が空欄である可能性があります)"
-      @question = Question.find_by(id: params[:qid])
-      @answers = Answer.where(question_id: params[:qid]).order(updated_at: "desc")
-      render("questions/show")
-    end
+    @answer = Answer.new(permit_params)
+    @answer.user_id = @current_user.id
+    @answer.question_id = params[:qid]
+    @answer.save
+    #convert_auto_orient("", "")
+    flash[:success] = "質問が投稿されました"
+    redirect_to("/questions/#{params[:qid].to_i}/show")
+#    @answer = Answer.new(user_id: @current_user.id, question_id: params[:qid].to_i, content: params[:content])
+#
+#      if params[:image_name]
+#        image = params[:image_name]
+#        @answer.image_name = "answer#{@answer.id}.png"
+#        File.binwrite("public/img/#{@answer.image_name}", image.read)
+#        @answer.save
+#        convert_auto_orient("public/img/#{@answer.image_name}", "public/img/#{@answer.image_name}")
+#      end
+#
+#      flash[:success] = "返信されました！"
+#      redirect_to("/questions/#{params[:qid]}/show")
+#
+#    else
+#      flash[:danger] = "返信できませんでした(返信が空欄である可能性があります)"
+#      @question = Question.find_by(id: params[:qid])
+#      @answers = Answer.where(question_id: params[:qid]).order(updated_at: "desc")
+#      render("questions/show")
+#    end
   end
 
   def destroy
@@ -59,5 +65,10 @@ class AnswersController < ApplicationController
       redirect_to("/questions/index")
     end
   end
+
+  private
+      def permit_params
+        params.require(:answer).permit(:content, :image_name)
+      end
 
 end

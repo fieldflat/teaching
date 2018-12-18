@@ -30,23 +30,28 @@
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
       編集エリア
     </div>
-    <%= form_tag("/questions/#{@question.id}/update", {multipart: true}) do %>
+    <%= form_for(@question, url: "/questions/#{@question.id}/update") do |f| %>
     <form>
       <fieldset class="form-group">
         <div class="form-group">
           <legend>タイトル</legend>
-          <input type="text" class="form-control" name="title" value="<%= @question.title %>">
+          <%= f.text_field :title %>
         </div>
         <div class="form-group">
           <legend>質問内容</legend>
-          <textarea name="content" class="form-control" rows="4" ><%= @question.content %></textarea>
+          <%= f.text_area :content, {:style => "width: 100%;", :rows => "8"} %>
         </div>
 
+
         <% if @question.image_name %>
-          <div class="form-group text-center">
-            <img src="<%= "/img/#{@question.image_name}" %>" style="width: 300px; ">
-          </div>
+        <div style="text-align: center;">
+        <%= image_tag @question.image_name.url, {:style => "width: 60%;"} %>
+        </div>
         <% end %>
+
+          <div class="form-group text-center my-5">
+            <%= f.file_field :image_name %>
+          </div>
 
         <% @question.errors.full_messages.each do |message| %>
         <li class="text-danger my-1" style="list-style: none;"><%= message %></li>

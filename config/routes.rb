@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   post "/users/:id/update" => "users#update"
 
   post "/questions/create" => "questions#create"
-  post "/questions/:qid/update" => "questions#update"
+  patch "/questions/:qid/update" => "questions#update"
+  #post "/questions/:qid/update" => "questions#update"
   post "/questions/:qid/destroy" => "questions#destroy"
 
   post "/answers/:qid/create" => "answers#create"
