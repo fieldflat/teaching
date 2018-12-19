@@ -8,7 +8,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(id: params[:id])
-    @questions = Question.where(user_id: @user.id).page(params[:page]).per(10).order(updated_at: "desc")
+    if @user
+      @questions = Question.where(user_id: @user.id).page(params[:page]).per(10).order(updated_at: "desc")
+    else
+      flash[:danger] = "ユーザが存在しません"
+      redirect_to("/")
+    end
   end
 
   def create

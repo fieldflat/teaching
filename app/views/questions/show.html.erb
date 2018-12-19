@@ -67,7 +67,8 @@
   <div class="container my-5">
     <div class="row header">
       <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-      <img src="<%= "/img/#{@question.user.image_name}" %>" style="border-radius: 50%; height: 40px; width: 40px; margin-right: 10px;">
+      <%= image_tag @question.user.image_name.url, {:style => "border-radius: 50%; height: 40px; width: 40px; margin-right: 10px;"} %>
+
       <%= link_to("#{@question.user.name}", "/users/#{@question.user.id}/show") + " " + "さんからの質問" %>
     </div>
     <form>
@@ -78,7 +79,7 @@
         <div class="form-group">
           <p><%= @question.content %></p>
         </div>
-        <% if @question.image_name %>
+        <% if @question.image_name? %>
         <div class="form-group text-center">
           <%= image_tag @question.image_name.url, {:style => "width: 60%;"} %>
         </div>
@@ -87,6 +88,7 @@
       </fieldset>
     </form>
 
+    <p style="text-align: right;"><%= @question.updated_at.strftime("%Y-%m-%d %H:%M") %></p>
     <% if @current_user.id == @question.user.id %>
     <div>
       <ul style="list-style: none;">
@@ -154,15 +156,15 @@
   <div class="container my-5 answer-container">
     <div class="row answer-header">
         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-        <img src="<%= "/img/#{ans.user.image_name}" %>" style="border-radius: 50%; height: 40px; width: 40px; margin-right: 10px;">
+        <%= image_tag ans.user.image_name.url, {:style => "border-radius: 50%; height: 40px; width: 40px; margin-right: 10px;"} %>
         <%= link_to("#{ans.user.name}", "/users/#{ans.user.id}/show") + " " + "さんの返信" %>
     </div>
     <form>
       <fieldset class="form-group">
         <div class="form-group">
-          <p><%= ans.content %></p>
+          <p><%= simple_format(ans.content) %></p>
         </div>
-        <% if ans.image_name %>
+        <% if ans.image_name? %>
           <div class="form-group text-center">
             <%= image_tag ans.image_name.url, {:style => "width: 60%;"} %>
           </div>
@@ -171,6 +173,7 @@
       </fieldset>
     </form>
 
+    <p style="text-align: right;"><%= ans.updated_at.strftime("%Y-%m-%d %H:%M") %></p>
     <% if @current_user.id == ans.user.id %>
     <div>
       <ul style="list-style: none;">

@@ -13,17 +13,26 @@ class QuestionsController < ApplicationController
 
   def show
     @question = Question.find_by(id: params[:qid])
-    @answers = Answer.where(question_id: params[:qid]).order(updated_at: "desc")
-    @answer = Answer.new
+    if @question
+      @answers = Answer.where(question_id: params[:qid]).order(updated_at: "desc")
+      @answer = Answer.new
+    else
+      flash[:danger] = "質問が存在しません"
+      redirect_to("/")
+    end
   end
 
   def create
     @question = Question.new(permit_params)
     @question.user_id = @current_user.id
-    @question.save
-    #convert_auto_orient("uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}", "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}")
-    flash[:success] = "質問が投稿されました"
-    redirect_to("/questions/index")
+    if @question.save
+      #convert_auto_orient("uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}", "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}")
+      flash[:success] = "質問が投稿されました"
+      redirect_to("/questions/index")
+    else
+      flash[:danger] = "質問の投稿に失敗しました"
+      render("questions/new")
+    end
   end
 
   def edit
@@ -32,10 +41,14 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find_by(id: params[:qid])
-    @question.update(permit_params)
-    #convert_auto_orient("", "")
-    flash[:success] = "質問が更新されました"
-    redirect_to("/questions/index")
+    if @question.update(permit_params)
+      #convert_auto_orient("", "")
+      flash[:success] = "質問が更新されました"
+      redirect_to("/questions/index")
+    else
+      flash[:danger] = "質問の更新に失敗しました"
+      render("questions/edit")
+    end
   end
 
   def destroy

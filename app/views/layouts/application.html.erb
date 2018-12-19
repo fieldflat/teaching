@@ -40,7 +40,9 @@
     <nav class="navbar navbar-expand-sm navbar-light bg-info">
       <!-- <a href="" class="navbar-brand">Logo</a> -->
       <% if @current_user %>
+      <%= link_to "/users/#{@current_user.id}/show" do %>
         <%= image_tag @current_user.image_name.url, {:style => "border-radius: 50%; height: 40px; width: 40px;" } %>
+      <% end %>
       <% else %>
         <a href="" class="navbar-brand">TW</a>
       <% end %>
