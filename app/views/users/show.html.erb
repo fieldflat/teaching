@@ -51,7 +51,7 @@
           <div class="text-center">
             <% if @user.image_name.url %>
               <div class="form-group text-center">
-                <%= image_tag @user.image_name.url, {:style => "width: 60%;"} %>
+                <%= image_tag @user.image_name.url, {:style => "width: 150px; height: 150px; border-radius: 50%; "} %>
               </div>
             <% end %>
           </div>
@@ -65,6 +65,28 @@
           <legend>自己紹介</legend>
           <p class="text-info">
             <%= simple_format(@user.introduction, :class => "text-info") %>
+          </p>
+        </div>
+        <div class="form-group">
+          <legend>質問数</legend>
+          <p class="text-info">
+            <%= @questions.count %>
+          </p>
+        </div>
+        <div class="form-group">
+          <legend>いい質問<span class="fa fa-heart like-btn-unlike" style="color: #ff2581;"></span>の数</legend>
+          <p class="text-info">
+            <%= @like_count %>
+          </p>
+        </div>
+        <div class="form-group">
+          <legend>いい解答
+            <span style="color: Tomato;">
+              <i class="fa fa-thumbs-up" style="width: 20px;"></i>
+            </span>
+            の数</legend>
+          <p class="text-info">
+            <%= @good_count %>
           </p>
         </div>
         <% @user.errors.full_messages.each do |message| %>

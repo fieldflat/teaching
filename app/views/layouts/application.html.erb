@@ -17,8 +17,9 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
   <style>
+
     body {
-      background-image: url(img/b002.gif);
+      background-color: rgba(168, 170, 79, 0.20);
     }
     .box-container {
       width: 100px;
@@ -57,7 +58,6 @@
           <li class="nav-item px-2"><a href="/questions/index" class="nav-link text-light">質問一覧</a></li>
           <li class="nav-item px-2"><a href="/questions/new" class="nav-link text-light">質問する</a></li>
           <li class="nav-item px-2"><%= link_to("ログアウト", "/users/logout", {method: "post", :class => "nav-link text-light"}) %></li>
-          <li class="nav-item px-2"><a href="/users/<%= @current_user.id %>/show" class="nav-link text-light">ログインユーザ：<%= @current_user.name %></a></li>
         </ul>
         <% else %>
         <ul class="navbar-nav">

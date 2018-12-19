@@ -10,6 +10,26 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     if @user
       @questions = Question.where(user_id: @user.id).page(params[:page]).per(10).order(updated_at: "desc")
+      @all_likes = Like.all
+      @all_goods = Good.all
+      @like_count = 0
+      @good_count = 0
+      @all_likes.each do |l|
+        liked_question = Question.find_by(id: l.post_id)
+        liked_user = User.find_by(id: liked_question.user_id)
+        if @user.id == liked_user.id
+          @like_count += 1
+        end
+      end
+
+      @all_goods.each do |g|
+        liked_answer = Answer.find_by(id: g.answer_id)
+        liked_user = User.find_by(id: liked_answer.user_id)
+        if @user.id == liked_user.id
+          @good_count += 1
+        end
+      end
+
     else
       flash[:danger] = "ユーザが存在しません"
       redirect_to("/")
