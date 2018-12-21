@@ -61,16 +61,25 @@
         <% if @login_error_message %>
         <p class="text-danger"><%= @login_error_message %></p>
         <% end %>
+
         <div class="input-group">
           <%= f.file_field :image_name %>
         </div>
-        <div class="text-center my-3">
-          <button type="submit" class="btn btn-primary pull-right">質問する</button>
-        </div>
-      </fieldset>
-    </form>
-    <% end %>
-  </div>
 
-</body>
-</html>
+        <%= render 'layouts/subject' %>
+
+        <div class="form-group">
+          <legend>タグ</legend>
+          <%= f.text_field :tag, :style => "width: 100%;" %>
+        </div>
+
+          <div class="text-center my-3">
+            <button type="submit" class="btn btn-primary pull-right">質問する</button>
+          </div>
+        </fieldset>
+      </form>
+      <% end %>
+    </div>
+
+  </body>
+  </html>

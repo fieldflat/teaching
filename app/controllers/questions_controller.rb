@@ -25,6 +25,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(permit_params)
     @question.user_id = @current_user.id
+    @question.subject = params[:subject]
     if @question.save
       #convert_auto_orient("uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}", "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}")
       flash[:success] = "質問が投稿されました"
@@ -92,7 +93,7 @@ class QuestionsController < ApplicationController
 
   private
       def permit_params
-        params.require(:question).permit(:title, :content, :image_name)
+        params.require(:question).permit(:title, :content, :image_name, :tag)
       end
 
 end

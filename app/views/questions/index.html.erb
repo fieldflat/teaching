@@ -52,6 +52,10 @@
       </div>
       <form>
         <fieldset class="form-group">
+          <p style="font-size: 14px; margin: 0px;">分野：<%= q.subject %></p>
+          <p style="margin-bottom: 24px; font-size: 14px; border-bottom: 1px solid grey;">タグ：<%= q.tag %></p>
+
+
           <div class="form-group">
             <h2 class="font-weight-bold text-center"><%= link_to(q.title, "/questions/#{q.id}/show") %></h2>
           </div>

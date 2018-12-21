@@ -45,12 +45,23 @@
 
         <% if @question.image_name %>
         <div style="text-align: center;">
-        <%= image_tag @question.image_name.url, {:style => "width: 60%;"} %>
+          <% if @question.image_name.url %>
+            <%= image_tag @question.image_name.url, {:style => "width: 60%;"} %>
+          <% end %>
         </div>
         <% end %>
 
           <div class="form-group text-center my-5">
             <%= f.file_field :image_name %>
+          </div>
+
+          <p>
+          <%= "分野：" + @question.subject %>
+          </p>
+
+          <div class="form-group">
+            <legend>タグ</legend>
+            <%= f.text_field :tag, :style => "width: 100%;" %>
           </div>
 
         <% @question.errors.full_messages.each do |message| %>
