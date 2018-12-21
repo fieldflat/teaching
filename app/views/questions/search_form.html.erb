@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+
+  <style>
+    .container {
+      max-width:800px;
+      border: solid 1px #FF773E;
+      border-radius:10px 10px 0px 0px;
+    }
+
+    .header {
+      background: #FF773E;
+      border-radius:10px 10px 0px 0px;
+      padding: 15px;
+      font-size: 25px;
+    }
+
+    .new_container {
+      max-width:800px;
+      border: solid 1px rgba(246, 129, 129, 0.86);
+      border-radius:10px 10px 0px 0px;
+    }
+
+    .new_header {
+      background: rgba(246, 129, 129, 0.86);
+      border-radius:10px 10px 0px 0px;
+      padding: 15px;
+      font-size: 25px;
+    }
+
+    fieldset{
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container my-5 new_container">
+    <div class="row new_header">
+      <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+      検索
+    </div>
+    <%= form_for(@question, url: '/questions/search', :method=>"get" ) do |f| %>
+    <form>
+      <fieldset class="form-group">
+
+        <div class="input-group my-3">
+          <legend>分野</legend>
+          <select name="subject">
+            <option value="国語">国語</option>
+            <option value="数学">数学</option>
+            <option value="理科">理科</option>
+            <option value="社会">社会</option>
+            <option value="英語">英語</option>
+            <option value="その他">その他</option>
+            <option value="全教科" selected>全教科</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <legend>タグ</legend>
+          <%= f.text_field :tag, {:style => "width: 100%;"} %>
+        </div>
+
+        <div class="text-center my-3">
+          <button type="submit" class="btn btn-primary pull-right">検索する</button>
+        </div>
+      </fieldset>
+    </form>
+    <% end %>
+  </div>
+
+</body>
+</html>

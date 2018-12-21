@@ -91,6 +91,27 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def search_form
+    @question = Question.new
+  end
+
+  def search
+    #@questions = Question.where(subject: params[:subject], tag: params[:tag]).page(params[:page]).per(10).order(updated_at: "desc")
+    #@questions = Question.where(subject: params[:subject]).page(params[:page]).per(10).order(updated_at: "desc")
+#    @subject = params[:subject]
+#    @tag = params[:tag]
+    @question = Question.new(permit_params)
+    @subject = params[:subject]
+    @tag = @question.tag
+
+    if params[:subject] == "全教科"
+        @questions = Question.all.page(params[:page]).per(10).order(updated_at: "desc")
+    else
+        @questions = Question.where(subject: params[:subject]).page(params[:page]).per(10).order(updated_at: "desc")
+    end
+
+  end
+
   private
       def permit_params
         params.require(:question).permit(:title, :content, :image_name, :tag)

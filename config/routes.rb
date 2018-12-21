@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get "/questions/index" => "questions#index"
   get "/questions/:qid/edit" => "questions#edit"
   get "/questions/:qid/show" => "questions#show"
+  get "/questions/search_form" => "questions#search_form"
+  get "/questions/search" => "questions#search"
 
   post "/users/create" => "users#create"
   post "/users/login" => "users#login"
