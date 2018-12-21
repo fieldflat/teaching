@@ -14,6 +14,8 @@ class UsersController < ApplicationController
       @all_goods = Good.all
       @like_count = 0
       @good_count = 0
+      @following_num = Follow.where(following_id: params[:id]).count
+      @followed_num = Follow.where(followed_id: params[:id]).count
       @all_likes.each do |l|
         liked_question = Question.find_by(id: l.post_id)
         liked_user = User.find_by(id: liked_question.user_id)

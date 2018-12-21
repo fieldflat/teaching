@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get "/questions/search_form" => "questions#search_form"
   get "/questions/search" => "questions#search"
 
+  get "/follows/:following_id/show_following" => "follows#show_following"
+  get "/follows/:followed_id/show_followed" => "follows#show_followed" 
+
   post "/users/create" => "users#create"
   post "/users/login" => "users#login"
   post "/users/logout" => "users#logout"
@@ -37,5 +40,9 @@ Rails.application.routes.draw do
 
   post "/goods/:aid/:qid/create" => "goods#create"
   post "/goods/:aid/:qid/destroy" => "goods#destroy"
+
+  post "/follows/:followed_id/create" => "follows#create"
+  post "/follows/:followed_id/destroy" => "follows#destroy"
+
 
 end

@@ -56,6 +56,25 @@
             <% end %>
           </div>
         </div>
+
+        <% if Follow.find_by(following_id: @current_user.id, followed_id: @user.id) %>
+        <div class="form-group" style="text-align: center;">
+         <%= link_to  "/follows/#{@user.id}/destroy" , {class: 'btn btn-danger pull-center', method: :post} do %>
+          <span>フォローを外す</span>
+          <% end %>
+        </div>
+        <% elsif @current_user.id == @user.id %>
+
+        <% else %>
+        <div class="form-group" style="text-align: center;">
+         <%= link_to  "/follows/#{@user.id}/create" , {class: 'btn btn-primary pull-center', method: :post} do %>
+          <span>フォローする</span>
+          <% end %>
+        </div>
+
+      <% end %>
+
+
         <div class="form-group">
           <legend>名前</legend>
 
@@ -87,6 +106,18 @@
             の数</legend>
           <p class="text-info">
             <%= @good_count %>
+          </p>
+        </div>
+        <div class="form-group">
+          <legend>フォロー数</legend>
+          <p class="text-info">
+            <%= @following_num %>
+          </p>
+        </div>
+        <div class="form-group">
+          <legend>フォロワー数</legend>
+          <p class="text-info">
+            <%= @followed_num %>
           </p>
         </div>
         <% @user.errors.full_messages.each do |message| %>
