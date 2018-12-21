@@ -37,7 +37,7 @@
           <legend>プロフィール画像</legend>
           <% if @user.image_name.url %>
           <div class="text-center">
-            <%= image_tag @user.image_name.url, {:style => "width: 60%;"} %>
+            <%= image_tag @user.image_name.url, {:style => "width: 150px; height: 150px; border-radius: 50%; "} %>
           </div>
           <% end %>
         </div>

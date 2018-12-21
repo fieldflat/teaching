@@ -16,10 +16,12 @@ class FollowsController < ApplicationController
   end
 
   def show_following
+    @target_user = User.find_by(id: params[:following_id])
     @members = Follow.where(following_id: params[:following_id])
   end
 
   def show_followed
+    @target_user = User.find_by(id: params[:followed_id])
     @members = Follow.where(followed_id: params[:followed_id])
   end
 

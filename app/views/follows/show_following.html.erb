@@ -1,1 +1,27 @@
-sdfsdf
+<div class="table-responsive container">
+　　<table class="table table-condensed">
+
+    <p style="text-align: center;"><span style="font-weight: bold;"><%= @target_user.name %></span>がフォローしているユーザ</p>
+    　　<!-- 基本記述と同じ -->
+    <thead>
+        <tr>
+            <th>名前</th>
+            <!-- <th>意気込み</th> -->
+            <th>フォロー数</th>
+            <th>フォロワー数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 行全体を灰色に -->
+      <% @members.each do |m| %>
+      <% @user = User.find_by(id: m.followed_id) %>
+        <tr class="active">
+            <th><%= link_to(@user.name, "/users/#{@user.id}/show") %></th>
+
+            <td><%= Follow.where(following_id: @user.id).count %></td>
+            <td><%= Follow.where(followed_id: @user.id).count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+　　</table>
+</div>
