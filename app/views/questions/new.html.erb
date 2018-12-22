@@ -47,11 +47,11 @@
     <form>
       <fieldset class="form-group">
         <div class="form-group">
-          <legend>タイトル</legend>
+          <legend>タイトル<span style="font-size: 18px; color: grey;">  (1文字以上, 75文字以内)</span></legend>
           <%= f.text_field :title, :style => "width: 100%;" %>
         </div>
         <div class="form-group">
-          <legend>質問内容</legend>
+          <legend>質問内容<span style="font-size: 18px; color: grey;">  (1文字以上, 400文字以内)</span></legend>
           <%= f.text_area :content, {:style => "width: 100%;", :rows => "8"} %>
         </div>
 
@@ -63,6 +63,7 @@
         <% end %>
 
         <div class="input-group">
+          <legend>画像<span style="font-size: 18px; color: grey;">  (必須ではありません)</span></legend>
           <%= f.file_field :image_name %>
         </div>
 
