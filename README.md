@@ -1,25 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+わからない問題を質問することができる，勉強質問アプリです．基本的には小学生〜高校生を対象としています．
 
-Things you may want to cover:
+# Teaching Worldでできること
 
-* Ruby version
+- わからない問題を質問することができる．
+- 質問に対してリプライすることができる．
+- 過去の質問を検索することができる．
+- 問題の質問だけでなく，勉強方法の質問であったり，受験勉強の悩みを投稿することができる．
+- 模試を受けることができる(現在準備中)
+- 気に入った質問をいいねすることができる．
 
-* System dependencies
+このアプリはRuby on Railsを用いて作成されています．
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# teaching
+ぜひ使ってみてください！
